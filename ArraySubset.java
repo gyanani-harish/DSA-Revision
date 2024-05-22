@@ -81,5 +81,47 @@ newSubset.append(3) = [1, 2, 3]
 result.append([1, 2, 3])
 Now, result = [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
   */
+
+    /** 
+    *
+    *
+    RECURSIVE
+    *
+    *
+    */
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();  // List to store all subsets
+        generateSubsets(nums, 0, new ArrayList<>(), result); // Start recursive subset generation
+        return result; // Return the list of all subsets
+    }
+
+    private void generateSubsets(int[] nums, int start, List<Integer> currentSubset, List<List<Integer>> result) {
+        // Base case: 
+        // When we've considered all elements (start == nums.length),
+        // the currentSubset represents a valid subset, so we add it to the result.
+        if (start == nums.length) {
+            // Make a copy of currentSubset before adding to avoid modifications
+            result.add(new ArrayList<>(currentSubset)); 
+            return;
+        }
+
+        // Recursive case: 
+        // 1. Include the current element in the subset, then recurse
+        currentSubset.add(nums[start]);
+        generateSubsets(nums, start + 1, currentSubset, result);
+
+        // 2. Exclude the current element, then recurse 
+        currentSubset.remove(currentSubset.size() - 1); // Backtrack
+        generateSubsets(nums, start + 1, currentSubset, result);
+    }
+/*
+    Key Idea:
+
+The recursive function generate_subsets explores all possible combinations by making a decision at each step:
+
+Include: Add the current element to the current_subset and recurse on the remaining elements.
+Exclude: Don't add the current element and recurse on the remaining elements.
+This creates a binary tree-like structure where each level represents an element, and each path from the root to a leaf represents a unique subset.
+    */
   
 }
